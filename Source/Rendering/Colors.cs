@@ -35,7 +35,8 @@ namespace WaveTracker {
                 { "Current row (default)", Helpers.HexCodeToColor("1b3782") },
                 { "Current row (editing)", Helpers.HexCodeToColor("6d1d4e") },
                 { "Playback row", Helpers.HexCodeToColor("311f58") },
-                { "Channel separator", Helpers.HexCodeToColor("313859") }
+                { "Channel separator", Helpers.HexCodeToColor("313859") },
+                { "AutoNote suggestion", Helpers.HexCodeToColor("ff4242") }
             };
         }
 
@@ -99,6 +100,7 @@ namespace WaveTracker {
                 ret["Playback row"] = Helpers.HexCodeToColor("500040");
 
                 ret["Channel separator"] = Helpers.HexCodeToColor("606060");
+                ret["AutoNote suggestion"] = Helpers.HexCodeToColor("ff4242");
                 return ret;
             }
         }
@@ -129,6 +131,7 @@ namespace WaveTracker {
                 ret["Playback row"] = Helpers.HexCodeToColor("000000");
 
                 ret["Channel separator"] = Helpers.HexCodeToColor("80808040");
+                ret["AutoNote suggestion"] = Helpers.HexCodeToColor("ff4242");
                 return ret;
             }
         }
@@ -160,7 +163,7 @@ namespace WaveTracker {
                 ret["Playback row"] = Helpers.HexCodeToColor("ffff80");
 
                 ret["Channel separator"] = Helpers.HexCodeToColor("a0a0a0");
-
+                ret["AutoNote suggestion"] = Helpers.HexCodeToColor("ff4242");
                 return ret;
             }
         }
@@ -191,7 +194,7 @@ namespace WaveTracker {
                 ret["Playback row"] = Helpers.HexCodeToColor("414e44");
 
                 ret["Channel separator"] = Helpers.HexCodeToColor("263640");
-
+                ret["AutoNote suggestion"] = Helpers.HexCodeToColor("ff4242");
                 return ret;
             }
         }

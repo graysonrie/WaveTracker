@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.IO;
 using WaveTracker.Audio;
 using WaveTracker.Rendering;
+using WaveTracker.Source.AutoNote;
 using WaveTracker.Tracker;
 using WaveTracker.UI;
 
@@ -141,6 +142,11 @@ namespace WaveTracker {
 
         public static GameTime GameTime { get; private set; }
 
+        /// <summary>
+        /// The music copilot
+        /// </summary>
+        public static AutoNote AutoNote { get; private set; }
+
         public App(string[] args) {
             instance = this;
             if (args.Length > 0) {
@@ -172,6 +178,7 @@ namespace WaveTracker {
             Settings = SettingsProfile.ReadFromDisk();
             Graphics.Initialize(Content, GraphicsDevice);
 
+            AutoNote = new();
             SaveLoad.ReadRecentFiles();
         }
 

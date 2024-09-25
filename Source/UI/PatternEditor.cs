@@ -1151,10 +1151,14 @@ namespace WaveTracker.UI {
         }
 
         private void DrawPatternEvent(int frame, int row, int channel, int frameWrap, int x, int y, int effectColumns, Color rowTextColor) {
-
+            
             int noteValue = App.CurrentSong[frame][row, channel, CellType.Note];
             int instrumentValue = App.CurrentSong[frame][row, channel, CellType.Instrument];
             int volumeValue = App.CurrentSong[frame][row, channel, CellType.Volume];
+
+            if(noteValue == WTPattern.EVENT_EMPTY) {
+                int autoNoteValue = App.CurrentSong.Patterns[frame][row, channel, CellType.Note];
+            }
 
             bool isCursorOnThisRow = frameWrap == 0 && renderCursorPos.Row == row;
             bool isCursorOnThisEvent = isCursorOnThisRow && renderCursorPos.Channel == channel;
