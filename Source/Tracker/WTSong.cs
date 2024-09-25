@@ -1,6 +1,7 @@
 ﻿using ProtoBuf;
 using System;
 using System.Collections.Generic;
+using WaveTracker.Source.AutoNote;
 
 namespace WaveTracker.Tracker {
     [ProtoContract(SkipConstructor = true)]

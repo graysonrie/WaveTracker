@@ -6,7 +6,7 @@ using System.Text;
 namespace WaveTracker.Tracker {
     public class WTPattern {
         private byte[][] cells;
-        private byte[][] autoNoteCells;
+        public byte[][] AutoNoteCells { get; private set; }
         public string CellsAsString { get; private set; }
 
         public bool IsDirty { get; set; }
@@ -55,11 +55,11 @@ namespace WaveTracker.Tracker {
                     cells[row][column] = EVENT_EMPTY;
                 }
             }
-            autoNoteCells = new byte[256][];
+            AutoNoteCells = new byte[256][];
             for(int row = 0; row < Height; row++) {
-                autoNoteCells[row] = new byte[parentSong.ParentModule.ChannelCount * 11];
-                for (int column = 0; column < autoNoteCells[row].Length; ++column) {
-                    autoNoteCells[row][column] = EVENT_EMPTY;
+                AutoNoteCells[row] = new byte[parentSong.ParentModule.ChannelCount * 11];
+                for (int column = 0; column < AutoNoteCells[row].Length; ++column) {
+                    AutoNoteCells[row][column] = EVENT_EMPTY;
                 }
             }
             CellsAsString = GetCellDataAsString();
@@ -297,11 +297,11 @@ namespace WaveTracker.Tracker {
             }
         }
         public int GetAutoNoteCell(int row, int channel, CellType cellType) {
-            return autoNoteCells[row][channel * 11 + (int)cellType];
+            return AutoNoteCells[row][channel * 11 + (int)cellType];
         }
         public void SetAutoNoteCell(int row, int channel, CellType cellType, byte value) {
             int col = channel * 11 + (int)cellType;
-            autoNoteCells[row][col] = value;
+            AutoNoteCells[row][col] = value;
             IsDirty = true;
         }
 

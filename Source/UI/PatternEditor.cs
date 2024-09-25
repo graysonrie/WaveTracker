@@ -321,6 +321,9 @@ namespace WaveTracker.UI {
                 CancelSelection();
             }
             if (ClickedM(KeyModifier._Any) && Input.CurrentModifier != KeyModifier.Shift && MouseX <= LastChannelEndPos && !Input.MouseJustEndedDragging) {
+                App.AutoNote.AnalyzeCurrentSong(cursorPosition);
+                //App.AutoNote.GetIdeas(cursorPosition.Frame, cursorPosition.Row, cursorPosition.Channel);
+
                 if (MouseX > ROW_COLUMN_WIDTH && MouseX < width) {
                     cursorPosition = GetCursorPositionFromPoint(MouseX, MouseY);
                     MakeCursorVisibleInBounds();
@@ -1155,9 +1158,14 @@ namespace WaveTracker.UI {
             int noteValue = App.CurrentSong[frame][row, channel, CellType.Note];
             int instrumentValue = App.CurrentSong[frame][row, channel, CellType.Instrument];
             int volumeValue = App.CurrentSong[frame][row, channel, CellType.Volume];
+            Color textColor = rowTextColor;
 
-            if(noteValue == WTPattern.EVENT_EMPTY) {
-                int autoNoteValue = App.CurrentSong.Patterns[frame][row, channel, CellType.Note];
+            // whether or not this cell has the option to show an autonote suggestion
+            App.AutoNote.IdleTimerTick();
+            bool displayAutonote = noteValue == WTPattern.EVENT_EMPTY;
+            if (displayAutonote) {
+                noteValue = App.CurrentSong.Patterns[frame].GetAutoNoteCell(row, channel, CellType.Note);
+                textColor = App.Settings.Colors.Theme["AutoNote suggestion"];
             }
 
             bool isCursorOnThisRow = frameWrap == 0 && renderCursorPos.Row == row;
@@ -1173,19 +1181,19 @@ namespace WaveTracker.UI {
 
             if (noteValue == WTPattern.EVENT_NOTE_CUT) {
                 if (App.Settings.PatternEditor.ShowNoteOffAndReleaseAsText) {
-                    Write("OFF", x + 2, y, rowTextColor);
+                    Write("OFF", x + 2, y, textColor);
                 }
                 else {
-                    DrawRect(x + 3, y + 2, 13, 2, rowTextColor);
+                    DrawRect(x + 3, y + 2, 13, 2, textColor);
                 }
             }
             else if (noteValue == WTPattern.EVENT_NOTE_RELEASE) {
                 if (App.Settings.PatternEditor.ShowNoteOffAndReleaseAsText) {
-                    Write("REL", x + 2, y, rowTextColor);
+                    Write("REL", x + 2, y, textColor);
                 }
                 else {
-                    DrawRect(x + 3, y + 2, 13, 1, rowTextColor);
-                    DrawRect(x + 3, y + 4, 13, 1, rowTextColor);
+                    DrawRect(x + 3, y + 2, 13, 1, textColor);
+                    DrawRect(x + 3, y + 4, 13, 1, textColor);
                 }
             }
             else if (noteValue == WTPattern.EVENT_EMPTY) {
@@ -1194,11 +1202,11 @@ namespace WaveTracker.UI {
             else {
                 string noteName = Helpers.MIDINoteToText(noteValue);
                 if (noteName.Contains('#')) {
-                    Write(noteName, x + 2, y, rowTextColor);
+                    Write(noteName, x + 2, y, textColor);
                 }
                 else {
-                    WriteMonospaced(noteName[0] + "-", x + 2, y, rowTextColor, 5);
-                    Write(noteName[2] + "", x + 13, y, rowTextColor);
+                    WriteMonospaced(noteName[0] + "-", x + 2, y, textColor, 5);
+                    Write(noteName[2] + "", x + 13, y, textColor);
                 }
             }
 
